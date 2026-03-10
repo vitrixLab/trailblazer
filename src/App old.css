@@ -1,0 +1,96 @@
+/* ============================================
+   TrailBlazers Run Club - Custom Styles
+   ============================================ */
+
+/* ---------- Typography Utilities ---------- */
+.font-heading {
+  font-family: 'Barlow Condensed', sans-serif;
+}
+
+.font-body {
+  font-family: 'Manrope', sans-serif;
+}
+
+/* ---------- Hero Overlay ---------- */
+.hero-overlay {
+  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(10,10,10,0.85) 100%);
+}
+
+/* ---------- Gallery Tetris Grid ---------- */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 4px;
+  grid-auto-rows: 250px;
+}
+
+/* Pattern: 7,5,4,4,4,12 (repeats every 6 items) */
+.gallery-grid .gallery-item:nth-child(6n+1) { grid-column: span 7; }
+.gallery-grid .gallery-item:nth-child(6n+2) { grid-column: span 5; }
+.gallery-grid .gallery-item:nth-child(6n+3),
+.gallery-grid .gallery-item:nth-child(6n+4),
+.gallery-grid .gallery-item:nth-child(6n+5) {
+  grid-column: span 4;
+}
+.gallery-grid .gallery-item:nth-child(6n+6) {
+  grid-column: span 12;
+  grid-row: span 1;
+}
+
+/* Mobile: stack all items */
+@media (max-width: 768px) {
+  .gallery-grid {
+    grid-template-columns: 1fr;
+    grid-auto-rows: 200px;
+  }
+  .gallery-grid .gallery-item {
+    grid-column: span 1 !important;
+  }
+}
+
+/* ---------- Lightbox ---------- */
+.lightbox-backdrop {
+  background: rgba(0, 0, 0, 0.95);
+}
+
+/* ---------- Event Card Hover ---------- */
+.event-card-shadow {
+  transition: box-shadow 0.3s ease-out, transform 0.3s ease-out;
+}
+.event-card-shadow:hover {
+  box-shadow: 4px 4px 0px 0px rgba(0,0,0,1);
+  transform: translateY(-2px);
+}
+
+/* ---------- Noise Texture Overlay ---------- */
+.noise-overlay {
+  position: relative; /* Required for pseudo‑element positioning */
+}
+.noise-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+/* Ensure content inside .noise-overlay appears above the noise */
+.noise-overlay > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------- Custom Scrollbar ---------- */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground));
+}
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary)); /* optional interactive feedback */
+}

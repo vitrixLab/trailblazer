@@ -1,0 +1,159 @@
+/* ==========================================================================
+   Custom UI/UX + Accessibility Enhancements for TrailBlazers Run Club
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Global Accessibility & UX Improvements
+   -------------------------------------------------------------------------- */
+
+/* Smooth scrolling for the whole page (except users who prefer reduced motion) */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Visible focus styles for keyboard navigation */
+:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+  border-radius: 0; /* keep sharp edges per design */
+}
+
+/* Hide focus ring for mouse users, but keep for keyboard */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Improve text readability */
+body {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --------------------------------------------------------------------------
+   2. Layout & Spacing Helpers (complement Tailwind)
+   -------------------------------------------------------------------------- */
+
+/* Consistent section spacing – you already use `py-20 md:py-32` */
+/* But we can add a helper for full‑width bleed sections */
+.section-full {
+  @apply relative w-full;
+}
+
+/* Noise texture overlay (already in App.css, but we add a more versatile version) */
+.bg-noise {
+  position: relative;
+}
+.bg-noise::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 0;
+}
+.bg-noise > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* --------------------------------------------------------------------------
+   3. Card & Interactive Element Micro‑interactions
+   -------------------------------------------------------------------------- */
+
+/* Event card (already has hover effect, but we add subtle scale) */
+.event-card {
+  transition: transform 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out);
+}
+.event-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 4px 4px 0 0 hsl(var(--primary));
+}
+
+/* Custom easing curve */
+:root {
+  --ease-out: cubic-bezier(0.215, 0.61, 0.355, 1);
+  --ease-in-out: cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+/* Button enhancements (already in shadcn, but we add pulse effect on CTA) */
+.btn-primary-pulse {
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+/* --------------------------------------------------------------------------
+   4. Modal / Lightbox Accessibility
+   -------------------------------------------------------------------------- */
+
+/* When lightbox is open, prevent body scroll */
+body.lightbox-open {
+  overflow: hidden;
+}
+
+/* Focus trap inside modal (handled by React, but we style the focus) */
+[data-radix-focus-trap] :focus-visible {
+  outline-color: hsl(var(--primary));
+}
+
+/* --------------------------------------------------------------------------
+   5. Skip to Content Link (for keyboard users)
+   -------------------------------------------------------------------------- */
+
+.skip-to-content {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  padding: 8px 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  z-index: 1000;
+  transition: top 0.2s;
+}
+.skip-to-content:focus {
+  top: 0;
+}
+
+/* --------------------------------------------------------------------------
+   6. High Contrast Mode Adjustments
+   -------------------------------------------------------------------------- */
+
+@media (prefers-contrast: high) {
+  * {
+    outline-width: 2px !important;
+  }
+  .bg-noise::before {
+    opacity: 0.1; /* make noise more visible */
+  }
+  a, button {
+    text-decoration: underline;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   7. Custom Scrollbar (refined from App.css)
+   -------------------------------------------------------------------------- */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground));
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary));
+}
