@@ -80,9 +80,9 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    A[User Browser] --> G[Cloudflare DNS (1.1.1.1)]
-    G --> C[Real Website IP]
-    C --> D[Website Server]
+    A["User Browser"] --> G["Cloudflare DNS (1.1.1.1)"]
+    G --> C["Real Website IP"]
+    C --> D["Website Server"]
     D --> A
 ```
 
